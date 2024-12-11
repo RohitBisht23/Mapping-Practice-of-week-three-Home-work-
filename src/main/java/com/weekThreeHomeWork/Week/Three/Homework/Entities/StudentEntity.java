@@ -22,4 +22,5 @@ public class StudentEntity {
     @ManyToMany
     @JsonIgnore
     private List<ProfessorEntity> professors;
+
 }
