@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface ProfessorServices {
 
-
-
-
     ProfessorDTO getCreateNewProfessor(ProfessorDTO professor);
 
     ProfessorDTO findProfessorById(Long id);
 
-    public List<ProfessorDTO> getAllProfessors();
+    List<ProfessorDTO> getAllProfessors();
+
+    ProfessorDTO assignProfessorToStudent(Long professorId, Long stundentId);
 }

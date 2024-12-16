@@ -2,15 +2,18 @@ package com.weekThreeHomeWork.Week.Three.Homework.Services.Impl;
 
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.ProfessorDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Entities.ProfessorEntity;
+import com.weekThreeHomeWork.Week.Three.Homework.Entities.StudentEntity;
 import com.weekThreeHomeWork.Week.Three.Homework.Exceptions.ResourceNotFoundException;
 import com.weekThreeHomeWork.Week.Three.Homework.Repositories.ProfessorRepository;
 import com.weekThreeHomeWork.Week.Three.Homework.Repositories.StudentRepository;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.ProfessorServices;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -43,4 +46,30 @@ public class ProfessorServiceImpl implements ProfessorServices {
                 .map(professor -> modelMapper.map(professor, ProfessorDTO.class))
                 .collect(Collectors.toList());
     }
+
+    public ProfessorDTO assignProfessorToStudent(Long professorId, Long studentId) {
+        Optional<StudentEntity> studentEntityOpt = studentRepository.findById(studentId);
+        Optional<ProfessorEntity> professorEntityOpt = professorRepository.findById(professorId);
+
+        if (studentEntityOpt.isPresent() && professorEntityOpt.isPresent()) {
+            StudentEntity student = studentEntityOpt.get();
+            ProfessorEntity professor = professorEntityOpt.get();
+
+            // Add the student to the professor's list
+            professor.getStudents().add(student);
+
+            // Add the professor to the student's list
+            student.getProfessors().add(professor);
+
+            // Save both entities
+            professorRepository.save(professor);
+            studentRepository.save(student);
+
+            return modelMapper.map(professor, ProfessorDTO.class);
+        }
+
+        // Handle case where either entity is not found
+        throw new EntityNotFoundException("Professor or Student not found");
+    }
+
 }

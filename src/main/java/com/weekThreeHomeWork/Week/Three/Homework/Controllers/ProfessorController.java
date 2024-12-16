@@ -23,7 +23,7 @@ public class ProfessorController {
        List<ProfessorDTO> dtos = (List<ProfessorDTO>) professorServices.getAllProfessors();
 
        return ResponseEntity.ok(dtos);
-   }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfessorDTO> getProfessorById(@PathVariable Long id) {
@@ -34,5 +34,12 @@ public class ProfessorController {
    @PostMapping("/createNewProfessor")
     public ResponseEntity<ProfessorDTO> createNewProfessor(@RequestBody ProfessorDTO professorDTO) {
        return ResponseEntity.ok(professorServices.getCreateNewProfessor(professorDTO));
-   }
+    }
+
+    @PostMapping("/{professorId}/asignStudentToProfessor/{studentId}")
+    public ResponseEntity<ProfessorDTO> assignProfessorToDepartment(@PathVariable Long professorId, @PathVariable Long studentId) {
+       ProfessorDTO assigedProfessor = professorServices.assignProfessorToStudent(professorId, studentId);
+
+       return new ResponseEntity<>(assigedProfessor, HttpStatus.NOT_FOUND);
+    }
 }

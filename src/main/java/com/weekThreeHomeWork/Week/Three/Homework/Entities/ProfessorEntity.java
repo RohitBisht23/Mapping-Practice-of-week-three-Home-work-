@@ -1,15 +1,14 @@
 package com.weekThreeHomeWork.Week.Three.Homework.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfessorEntity {
@@ -19,7 +18,6 @@ public class ProfessorEntity {
     private Long id;
 
     private String name;
-
 
     @ManyToMany
     @JoinTable(name="Class_entity_of_professor_and_student",
