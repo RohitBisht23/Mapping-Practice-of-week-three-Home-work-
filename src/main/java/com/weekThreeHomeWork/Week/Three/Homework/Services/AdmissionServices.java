@@ -17,4 +17,6 @@ public interface AdmissionServices {
     AdmissionDTO getStudentEndrollementById(Long id);
 
     void deleteStudentAdmissionDetails(Long id);
+
+    AdmissionDTO getAdmissionRecordById(Long studentId);
 }

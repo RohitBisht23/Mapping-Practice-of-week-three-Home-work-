@@ -69,4 +69,17 @@ public class StudentServiceImpl implements StudentServices {
         studentRepository.deleteById(id);
         return;
     }
+
+    @Override
+    public StudentDTO getStudentDetailsByAdmissionId(Long admissionId) {
+        AdmissionEntity admission = AdmissionEntity.builder().id(admissionId).build(); //Only id field will not be null rest are null
+        StudentEntity student = studentRepository.findByAdmissionRecord(admission);
+
+        if (student == null) {
+            throw new ResourceNotFoundException("No student found for admission ID: " + admissionId);
+        }
+
+        // Convert StudentEntity to StudentDTO
+        return modelMapper.map(student, StudentDTO.class);
+    }
 }

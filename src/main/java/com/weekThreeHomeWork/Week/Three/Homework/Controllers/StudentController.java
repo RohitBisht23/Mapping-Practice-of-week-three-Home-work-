@@ -42,5 +42,9 @@ public class StudentController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/getStudentDetailsByAdmissionRecord/{admissionId}")
+    public ResponseEntity<StudentDTO> getStudentDetailsByAdmissionRecord(@PathVariable Long admissionId) {
+        return new ResponseEntity<>(studentServices.getStudentDetailsByAdmissionId(admissionId), HttpStatus.OK);
+    }
 
 }

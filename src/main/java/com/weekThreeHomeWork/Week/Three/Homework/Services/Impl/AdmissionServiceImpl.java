@@ -1,9 +1,12 @@
 package com.weekThreeHomeWork.Week.Three.Homework.Services.Impl;
 
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.AdmissionDTO;
+import com.weekThreeHomeWork.Week.Three.Homework.DTO.StudentDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Entities.AdmissionEntity;
+import com.weekThreeHomeWork.Week.Three.Homework.Entities.StudentEntity;
 import com.weekThreeHomeWork.Week.Three.Homework.Exceptions.ResourceNotFoundException;
 import com.weekThreeHomeWork.Week.Three.Homework.Repositories.AdmissionRepository;
+import com.weekThreeHomeWork.Week.Three.Homework.Repositories.StudentRepository;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.AdmissionServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ public class AdmissionServiceImpl implements AdmissionServices {
 
     private final AdmissionRepository repository;
     private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
 
 
     @Override
@@ -68,5 +72,20 @@ public class AdmissionServiceImpl implements AdmissionServices {
         }
         repository.deleteById(id);
         return;
+    }
+
+    @Override
+    public AdmissionDTO getAdmissionRecordById(Long studentId) {
+        log.info("Fetching student's record by id : {}",studentId);
+
+        StudentEntity student = studentRepository.findById(studentId)
+                .orElseThrow( () -> {
+                            log.info("Fetching the student record from database");
+                    return new ResourceNotFoundException("Student with give student id not found ");
+                });
+
+
+        log.info("Student successfully found ");
+        return modelMapper.map(student.getAdmissionRecord(), AdmissionDTO.class);
     }
 }

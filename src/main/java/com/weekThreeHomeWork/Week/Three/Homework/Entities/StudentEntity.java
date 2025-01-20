@@ -27,7 +27,7 @@ public class StudentEntity {
 //    private List<ProfessorEntity> professors;
 
     // Use OneToOne with the 'mappedBy' attribute to avoid the creation of another join column
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "Admission_Column")
     private AdmissionEntity admissionRecord;
 

@@ -37,4 +37,8 @@ public class AdmissionController {
         return new ResponseEntity<>("Student successfully deleted", HttpStatus.OK);
     }
 
+    @GetMapping("/getAdmissionRecordByStudentId/{studentId}")
+    public ResponseEntity<AdmissionDTO> getAdmissionRecordById(@PathVariable Long studentId) {
+        return new ResponseEntity<>(admissionServices.getAdmissionRecordById(studentId), HttpStatus.OK);
+    }
 }

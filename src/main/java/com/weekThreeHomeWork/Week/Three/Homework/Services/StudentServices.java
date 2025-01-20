@@ -17,4 +17,6 @@ public interface StudentServices {
     StudentDTO getStudentById(Long id);
 
     void deleteStudentById(Long id);
+
+    StudentDTO getStudentDetailsByAdmissionId(Long admissionId);
 }
