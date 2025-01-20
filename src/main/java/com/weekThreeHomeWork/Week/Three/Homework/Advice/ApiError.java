@@ -10,19 +10,10 @@ import java.util.List;
 
 
 @Data
+@Builder
 public class ApiError {
 
-    private LocalDateTime timeStamp;
-    private String error;
-    private HttpStatus statusCode;
-
-    public ApiError(String error, HttpStatus statusCode) {
-        this();
-        this.error = error;
-        this.statusCode = statusCode;
-    }
-
-    public ApiError() {
-        this.timeStamp = LocalDateTime.now();
-    }
+    private HttpStatus status;
+    private String message;
+    List<String> subErrors;
 }

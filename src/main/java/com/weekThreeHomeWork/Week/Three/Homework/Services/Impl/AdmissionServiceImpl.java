@@ -1,64 +1,72 @@
 package com.weekThreeHomeWork.Week.Three.Homework.Services.Impl;
 
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.AdmissionDTO;
-import com.weekThreeHomeWork.Week.Three.Homework.DTO.StudentDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Entities.AdmissionEntity;
 import com.weekThreeHomeWork.Week.Three.Homework.Exceptions.ResourceNotFoundException;
 import com.weekThreeHomeWork.Week.Three.Homework.Repositories.AdmissionRepository;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.AdmissionServices;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AdmissionServiceImpl implements AdmissionServices {
 
-    private final AdmissionRepository admissionRepository;
+    private final AdmissionRepository repository;
     private final ModelMapper modelMapper;
 
-    @Override
-    public AdmissionDTO enrollStudent(AdmissionDTO newStudent) {
-        return modelMapper.map(
-                admissionRepository.save(
-                        modelMapper.map(newStudent, AdmissionEntity.class)
-                ),
-                AdmissionDTO.class
-        );
-    }
 
     @Override
-    public List<AdmissionDTO> getAllEnrolledStudent() {
-        return  admissionRepository.findAll()
+    public List<AdmissionDTO> getAllendrolledStudents() {
+        log.info("Fetching all admission records");
+        return repository.findAll()
                 .stream()
-                .map(student -> modelMapper.map(student, AdmissionDTO.class))
+                .map(admissionEntity -> modelMapper.map(admissionEntity, AdmissionDTO.class))
                 .collect(Collectors.toList());
-
     }
 
     @Override
-    public AdmissionDTO updateStudentEnrollmentDetails(Long enrolledId, AdmissionDTO admissionRecordDto) {
-        return null;
+    public AdmissionDTO endrollNewStudent(AdmissionDTO newStudentRecord) {
+        log.info("New Student enrollment");
+        AdmissionEntity newAdmissionRecord = modelMapper.map(newStudentRecord, AdmissionEntity.class);
+
+        log.info("Storing new Student Enrollment");
+        AdmissionEntity savedStudentRecord = repository.save(newAdmissionRecord);
+
+        log.info("Successfully able to store the new enrollment");
+        log.info("Returning back stored enrollment");
+        return modelMapper.map(savedStudentRecord, AdmissionDTO.class);
     }
 
     @Override
-    public AdmissionDTO assignStudentToRecord(Long enrolledId, Long studentId) {
-        return null;
+    public AdmissionDTO getStudentEndrollementById(Long id) {
+        log.info("Fetching student record by id{}", id);
+
+        AdmissionEntity studentRecord = repository.findById(id).orElse(null);
+        if(studentRecord ==null) {
+            log.error("Get an error while fetching the student record");
+            throw new ResourceNotFoundException("No record found with id :"+id);
+        }
+        log.info("Successfully found the record by id {}, returning the data", id);
+        return modelMapper.map(studentRecord, AdmissionDTO.class);
     }
 
     @Override
-    public AdmissionDTO getStudentEnrollementDetailById(Long id) {
-        isExistByIdAdmissionRecord(id);
-        return modelMapper.map(admissionRepository.findById(id), AdmissionDTO.class);
-    }
+    public void deleteStudentAdmissionDetails(Long id) {
+        log.info("Fetching the student record by id{}", id);
 
-
-    private void isExistByIdAdmissionRecord(Long id){
-        boolean isExist=admissionRepository.existsById(id);
-        if(!isExist) throw new ResourceNotFoundException("Admission record not found by id:"+id);
+        AdmissionEntity studentRecord = repository.findById(id).orElse(null);
+        if(studentRecord ==null) {
+            log.error("Get an error during fetching the student record");
+            throw new ResourceNotFoundException("No record found with id :"+id);
+        }
+        repository.deleteById(id);
+        return;
     }
 }

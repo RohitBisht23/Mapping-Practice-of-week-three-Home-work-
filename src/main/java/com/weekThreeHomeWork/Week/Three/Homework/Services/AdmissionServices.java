@@ -9,13 +9,12 @@ import java.util.List;
 
 public interface AdmissionServices {
 
-    AdmissionDTO enrollStudent(AdmissionDTO newStudent);
 
-    List<AdmissionDTO> getAllEnrolledStudent();
+    List<AdmissionDTO> getAllendrolledStudents();
 
-    AdmissionDTO updateStudentEnrollmentDetails(Long enrolledId, AdmissionDTO admissionRecordDto);
+    AdmissionDTO endrollNewStudent(AdmissionDTO newStudentRecord);
 
-    AdmissionDTO assignStudentToRecord(Long enrolledId, Long studentId);
+    AdmissionDTO getStudentEndrollementById(Long id);
 
-    AdmissionDTO getStudentEnrollementDetailById(Long id);
+    void deleteStudentAdmissionDetails(Long id);
 }

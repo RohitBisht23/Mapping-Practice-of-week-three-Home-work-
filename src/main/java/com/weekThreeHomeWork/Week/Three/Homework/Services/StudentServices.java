@@ -1,5 +1,6 @@
 package com.weekThreeHomeWork.Week.Three.Homework.Services;
 
+import com.weekThreeHomeWork.Week.Three.Homework.DTO.AdmissionDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.StudentDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Entities.StudentEntity;
 
@@ -8,11 +9,12 @@ import java.util.List;
 
 public interface StudentServices {
 
-    List<StudentDTO> getAllStudents();
 
-    StudentDTO getStudentById(Long studentId);
+    List<StudentDTO> getAllStudent();
 
-    StudentDTO createNewStudent(StudentEntity newStudent);
+    StudentDTO endrollNewStudent(StudentDTO studentDTO);
 
-    StudentDTO assignProfessorToStudent(Long professorId, Long studentId);
+    StudentDTO getStudentById(Long id);
+
+    void deleteStudentById(Long id);
 }

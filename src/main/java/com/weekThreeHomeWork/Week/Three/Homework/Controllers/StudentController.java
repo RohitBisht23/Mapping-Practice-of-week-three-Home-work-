@@ -19,28 +19,28 @@ public class StudentController {
     private final StudentServices studentServices;
 
     @GetMapping
-    public ResponseEntity<List<StudentDTO>> getAllStudents() {
-
-        List<StudentDTO> students = (List<StudentDTO>) studentServices.getAllStudents();
-        return ResponseEntity.ok(students);
+    public ResponseEntity<List<StudentDTO>> getAllstudents() {
+        return new ResponseEntity<>(studentServices.getAllStudent(), HttpStatus.OK);
     }
 
-    @GetMapping(path="/{studentId}")
-    public ResponseEntity<StudentDTO> getStudentById(@PathVariable Long studentId) {
-        StudentDTO student =   studentServices.getStudentById(studentId);
-        return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
+    @PostMapping("/enrollNewStudent/studentAdmissionRecords")
+    public ResponseEntity<StudentDTO> endrollAllStudent(@RequestBody StudentDTO studentDTO) {
+        return new ResponseEntity<>(studentServices.endrollNewStudent(studentDTO), HttpStatus.CREATED);
     }
 
-    @PostMapping
-    public ResponseEntity<StudentDTO> createNewStudent(@RequestBody StudentEntity newStudent) {
-        StudentDTO createdStudent = studentServices.createNewStudent(newStudent);
-        return ResponseEntity.ok(createdStudent);
+    @GetMapping("/getStudentById/{id}")
+    public ResponseEntity<StudentDTO> getStudentById(@PathVariable Long id) {
+        return new ResponseEntity<>(studentServices.getStudentById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/{studentId}/assignProfessorToStudent/{professorId}")
-    public ResponseEntity<StudentDTO> getAssignProfessorToStudent(@PathVariable Long studentId, @PathVariable Long professorId) {
-        StudentDTO studentDTO = studentServices.assignProfessorToStudent(studentId, professorId);
-        return ResponseEntity.ok(studentDTO);
+    @DeleteMapping("/deleteStudentById/{id}")
+    public ResponseEntity<String> deleteStudentById(@PathVariable Long id) {
+        studentServices.deleteStudentById(id);  // Service method deletes the student
+
+        // Return a success message as String
+        String response = "Student is Deleted Successfully";
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
 }

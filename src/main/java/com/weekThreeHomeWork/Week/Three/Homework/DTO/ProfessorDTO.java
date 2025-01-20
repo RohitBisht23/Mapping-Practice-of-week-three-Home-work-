@@ -14,5 +14,5 @@ public class ProfessorDTO {
     private Long id;
     private String name;
 
-    List<StudentDTO> students;
+    //List<StudentDTO> students;
 }

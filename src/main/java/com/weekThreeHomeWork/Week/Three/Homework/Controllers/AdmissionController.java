@@ -4,7 +4,6 @@ import com.weekThreeHomeWork.Week.Three.Homework.DTO.AdmissionDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.AdmissionServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,33 +11,30 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/admissionRecords")
 public class AdmissionController {
 
     private final AdmissionServices admissionServices;
 
-    @GetMapping
-    public ResponseEntity<AdmissionDTO> getAdmitStudent(@RequestBody AdmissionDTO newStudent) {
-        return new ResponseEntity<>(admissionServices.enrollStudent(newStudent), HttpStatus.CREATED);
+    @GetMapping("/GetAllEndrolledStudentsAdmissionDetails")
+    public ResponseEntity<List<AdmissionDTO>>  GetAllEndrolledStudents() {
+        return new ResponseEntity<>(admissionServices.getAllendrolledStudents(), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<AdmissionDTO>> getAllEnrolledStudents() {
-        return  ResponseEntity.ok(admissionServices.getAllEnrolledStudent());
+    @PostMapping(path="/endrollNewStudent")
+    public ResponseEntity<AdmissionDTO> endrollNewStudent(@RequestBody AdmissionDTO newStudentRecord) {
+        return new ResponseEntity<>(admissionServices.endrollNewStudent(newStudentRecord), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{enrolledId}")
-    public ResponseEntity<AdmissionDTO> updateStudentEnrollmentDetails(@PathVariable Long enrolledId, @ResponseBody AdmissionDTO admissionRecordDto) {
-        return new ResponseEntity<>(admissionServices.updateStudentEnrollmentDetails(enrolledId,admissionRecordDto));
+    @GetMapping("/getStudentRecordById/{id}")
+    public ResponseEntity<AdmissionDTO> getStudentEndrollementById(@PathVariable Long id) {
+        return new ResponseEntity<>(admissionServices.getStudentEndrollementById(id), HttpStatus.OK);
     }
 
-    @PutMapping("/{enrolledId}/assignStudent/{studentId}")
-    public ResponseEntity<AdmissionDTO> assignStudentToRecord(@PathVariable Long enrolledId,@PathVariable Long studentId){
-        return ResponseEntity.ok(admissionServices.assignStudentToRecord(enrolledId,studentId));
+    @DeleteMapping("/deleteStudentRecord/{id}")
+    public ResponseEntity<String> deleteStudentAdmissionRecord(@PathVariable Long id) {
+        admissionServices.deleteStudentAdmissionDetails(id);
+        return new ResponseEntity<>("Student successfully deleted", HttpStatus.OK);
     }
 
-    @GetMapping("/studentId/{id}")
-    public ResponseEntity<AdmissionDTO> getStudentEnrollementDetailById(@PathVariable Long id) {
-         AdmissionDTO studentDetails = admissionServices.getStudentEnrollementDetailById(id);
-         return new ResponseEntity<>(studentDetails, HttpStatus.NOT_FOUND);
-    }
 }

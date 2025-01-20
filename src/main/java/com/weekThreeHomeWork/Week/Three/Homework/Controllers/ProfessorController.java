@@ -18,28 +18,24 @@ public class ProfessorController {
 
     private final ProfessorServices professorServices;
 
-   @GetMapping
-    public ResponseEntity<List<ProfessorDTO>> getAllProfessors() {
-       List<ProfessorDTO> dtos = (List<ProfessorDTO>) professorServices.getAllProfessors();
-
-       return ResponseEntity.ok(dtos);
+    @GetMapping
+    public ResponseEntity<List<ProfessorDTO>> getAllProfessor() {
+        return new ResponseEntity<>(professorServices.getAllProfessor(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/createNewProfessor")
+    public ResponseEntity<ProfessorDTO> createProfessor(@RequestBody ProfessorDTO newProfessor) {
+        return new ResponseEntity<>(professorServices.createProfessor(newProfessor), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getProfessorById/{id}")
     public ResponseEntity<ProfessorDTO> getProfessorById(@PathVariable Long id) {
-        ProfessorDTO professorDTO = professorServices.findProfessorById(id);
-        return new ResponseEntity<>(professorDTO, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(professorServices.getProfessorById(id), HttpStatus.OK);
     }
 
-   @PostMapping("/createNewProfessor")
-    public ResponseEntity<ProfessorDTO> createNewProfessor(@RequestBody ProfessorDTO professorDTO) {
-       return ResponseEntity.ok(professorServices.getCreateNewProfessor(professorDTO));
-    }
-
-    @PostMapping("/{professorId}/asignStudentToProfessor/{studentId}")
-    public ResponseEntity<ProfessorDTO> assignProfessorToDepartment(@PathVariable Long professorId, @PathVariable Long studentId) {
-       ProfessorDTO assigedProfessor = professorServices.assignProfessorToStudent(professorId, studentId);
-
-       return new ResponseEntity<>(assigedProfessor, HttpStatus.NOT_FOUND);
+    @DeleteMapping("/DeleteProfessorById")
+    public ResponseEntity<String> deleteProfessorById(@PathVariable Long id) {
+        professorServices.deleteProfessorById(id);
+        return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
     }
 }

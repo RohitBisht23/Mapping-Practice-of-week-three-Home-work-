@@ -1,22 +1,30 @@
 package com.weekThreeHomeWork.Week.Three.Homework.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdmissionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
-    private Date dateOfJoin;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dateOfAdmission;
 
-    private String studentName;
+    @OneToOne(mappedBy = "admissionRecord")
+    private StudentEntity student;
 }
