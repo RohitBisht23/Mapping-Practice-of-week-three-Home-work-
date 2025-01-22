@@ -23,6 +23,8 @@ public class AdmissionEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfAdmission;
 
+    private Integer fees;
+
     @OneToOne(mappedBy = "admissionRecord")
     private StudentEntity student;
 }

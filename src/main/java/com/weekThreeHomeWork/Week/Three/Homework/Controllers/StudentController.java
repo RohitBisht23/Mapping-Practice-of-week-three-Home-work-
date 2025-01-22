@@ -4,6 +4,7 @@ package com.weekThreeHomeWork.Week.Three.Homework.Controllers;
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.StudentDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Entities.StudentEntity;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.StudentServices;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class StudentController {
     }
 
     @PostMapping("/enrollNewStudent/studentAdmissionRecords")
-    public ResponseEntity<StudentDTO> endrollAllStudent(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> endrollAllStudent(@RequestBody @Valid StudentDTO studentDTO) {
         return new ResponseEntity<>(studentServices.endrollNewStudent(studentDTO), HttpStatus.CREATED);
     }
 
@@ -35,10 +36,9 @@ public class StudentController {
 
     @DeleteMapping("/deleteStudentById/{id}")
     public ResponseEntity<String> deleteStudentById(@PathVariable Long id) {
-        studentServices.deleteStudentById(id);  // Service method deletes the student
+        String response = studentServices.deleteStudentById(id);  // Service method deletes the student
 
         // Return a success message as String
-        String response = "Student is Deleted Successfully";
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

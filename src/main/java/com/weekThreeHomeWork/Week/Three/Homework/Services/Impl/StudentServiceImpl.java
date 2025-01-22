@@ -59,7 +59,7 @@ public class StudentServiceImpl implements StudentServices {
     }
 
     @Override
-    public void deleteStudentById(Long id) {
+    public String deleteStudentById(Long id) {
         StudentEntity entity = studentRepository.findById(id).orElse(null);
 
         if(entity == null) {
@@ -67,7 +67,7 @@ public class StudentServiceImpl implements StudentServices {
         }
 
         studentRepository.deleteById(id);
-        return;
+        return "Student is deleted successfully";
     }
 
     @Override

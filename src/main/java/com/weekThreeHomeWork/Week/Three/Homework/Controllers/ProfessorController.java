@@ -2,7 +2,9 @@ package com.weekThreeHomeWork.Week.Three.Homework.Controllers;
 
 
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.ProfessorDTO;
+import com.weekThreeHomeWork.Week.Three.Homework.DTO.SubjectDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.ProfessorServices;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -24,7 +26,7 @@ public class ProfessorController {
     }
 
     @PostMapping("/createNewProfessor")
-    public ResponseEntity<ProfessorDTO> createProfessor(@RequestBody ProfessorDTO newProfessor) {
+    public ResponseEntity<ProfessorDTO> createProfessor(@RequestBody @Valid ProfessorDTO newProfessor) {
         return new ResponseEntity<>(professorServices.createProfessor(newProfessor), HttpStatus.CREATED);
     }
 
@@ -37,5 +39,10 @@ public class ProfessorController {
     public ResponseEntity<String> deleteProfessorById(@PathVariable Long id) {
         professorServices.deleteProfessorById(id);
         return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllAssignedSubjectsToProfessors/{id}")
+    public ResponseEntity<List<SubjectDTO>> fetchAllAssignedSubjectToProfessorById(@PathVariable Long id) {
+        return new ResponseEntity<>(professorServices.fetchAllAssignedSubjects(id), HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.weekThreeHomeWork.Week.Three.Homework.Controllers;
 
 import com.weekThreeHomeWork.Week.Three.Homework.DTO.AdmissionDTO;
 import com.weekThreeHomeWork.Week.Three.Homework.Services.AdmissionServices;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AdmissionController {
     }
 
     @PostMapping(path="/endrollNewStudent")
-    public ResponseEntity<AdmissionDTO> endrollNewStudent(@RequestBody AdmissionDTO newStudentRecord) {
+    public ResponseEntity<AdmissionDTO> endrollNewStudent(@RequestBody @Valid AdmissionDTO newStudentRecord) {
         return new ResponseEntity<>(admissionServices.endrollNewStudent(newStudentRecord), HttpStatus.CREATED);
     }
 

@@ -2,6 +2,7 @@ package com.weekThreeHomeWork.Week.Three.Homework.Advice;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
@@ -26,4 +27,5 @@ public class ApiResponse<T> {
         this(); //calling default constructor
         this.error = error;
     }
+
 }

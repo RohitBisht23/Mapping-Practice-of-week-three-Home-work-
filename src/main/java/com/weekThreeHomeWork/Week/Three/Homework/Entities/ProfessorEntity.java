@@ -23,4 +23,7 @@ public class ProfessorEntity {
 //            inverseJoinColumns = @JoinColumn(name = "Student_id")
 //    )
 //    private List<StudentEntity> students;
+
+    @OneToMany(mappedBy = "professor")
+    private List<SubjectEntity> subjects;
 }
