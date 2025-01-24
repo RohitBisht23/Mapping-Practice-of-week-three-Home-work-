@@ -19,4 +19,6 @@ public interface StudentServices {
     String deleteStudentById(Long id);
 
     StudentDTO getStudentDetailsByAdmissionId(Long admissionId);
+
+    StudentDTO assignProfessorToStudent(Long professorId, Long studentId);
 }

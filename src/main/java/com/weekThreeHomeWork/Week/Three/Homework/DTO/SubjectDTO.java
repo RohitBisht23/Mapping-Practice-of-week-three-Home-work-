@@ -16,4 +16,5 @@ public class SubjectDTO {
 
     @JsonIgnore
     private ProfessorDTO professor;
+
 }

@@ -47,4 +47,9 @@ public class StudentController {
         return new ResponseEntity<>(studentServices.getStudentDetailsByAdmissionId(admissionId), HttpStatus.OK);
     }
 
+    @PutMapping("/professors/{professorId}/students/{studentId}/assign")
+    public ResponseEntity<StudentDTO> assignProfessorToStudent(@PathVariable Long professorId, @PathVariable Long studentId) {
+        return new ResponseEntity<>(studentServices.assignProfessorToStudent(professorId, studentId), HttpStatus.OK);
+    }
+
 }
